@@ -14,7 +14,7 @@ $> ./micro_paint do not fear mathematics | cat -e
 Error: argument$
 $> 
 
-If any problem occurs while you open and/or read the "operation file" write "Error: Operation file corrupted" followed by a \n in STDOUT
+If any problem occurs while you open and/or read the "operation file" write touchtouch followed by a \n in STDOUT
 
 The "operation file" will contains lines with one operation per line
 If a line is incorrect an error occurs.
