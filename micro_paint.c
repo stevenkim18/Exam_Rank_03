@@ -33,7 +33,7 @@ int     main(int argc, char *argv[])
     int     y;
 
     // 도형
-    char     type;
+    char    type;
     float   start_x;
     float   start_y;
     float   width;
@@ -49,16 +49,23 @@ int     main(int argc, char *argv[])
     // 배경색 파싱하기
     if (fscanf(file, "%d %d %c\n", &b_width, &b_height, &b_char) != 3)
         return (str_error("Error: Operation file corrupted\n"));
+    // 배경 에러 처리
+    if (!(b_width > 0 && b_width <= 300 && b_height > 0 && b_height <= 300))
+        return (str_error("Error: Operation file corrupted\n"));
     // 배경의 가로 x 세로 크기 만큼 할당 하기
     image = (char*)malloc(sizeof(char) * (b_width * b_height));
     // 배경 색 칠하기
     memset(image, b_char, b_width * b_height);
-
     // 직사각형 값 파싱해오기
     read = fscanf(file, "%c %f %f %f %f %c\n", &type, &start_x, &start_y, &width, &height, &c_char);
-
     while (read == 6)
     {   
+        // 직사각형 타입과 가로 세로 에러 처리
+        if (!(width > 0 && height > 0) || !(type == 'R' || type == 'r'))
+        {
+            free(image);
+            return (str_error("Error: Operation file corrupted\n"));
+        }
         // 직사각형 그리기
         y = 0;
         while (y < b_height)
@@ -72,22 +79,16 @@ int     main(int argc, char *argv[])
                     if ((float)x - start_x < 1.0000000 || (start_x + width) - (float)x < 1.0000000 ||
                         (float)y - start_y < 1.0000000 || (start_y + height) - (float)y < 1.0000000)
                     {
-                    // 테두리 였으면 테두리만 그려지고
-                    // 테두리인지 확인을 안하면 사각형이 색칠 됨.
-                    // if ((float)x >= start_x && (float)x <= start_x + width && 
-                    //     (float)y >= start_y && (float)y <= start_y + height)
-                    //     image[y * b_height + x] = c_char;
-                    // }
                     if ((float)x >= start_x && (float)x <= start_x + width && 
                         (float)y >= start_y && (float)y <= start_y + height)
-                        image[y * b_height + x] = c_char;
+                        image[y * b_width + x] = c_char;
                     }
                 }
                 else if (type == 'R')
                 {
                     if ((float)x >= start_x && (float)x <= start_x + width && 
                         (float)y >= start_y && (float)y <= start_y + height)
-                        image[y * b_height + x] = c_char;
+                        image[y * b_width + x] = c_char;
                 }
                 x++;
             }
@@ -95,6 +96,12 @@ int     main(int argc, char *argv[])
         }
         read = fscanf(file, "%c %f %f %f %f %c\n", &type, &start_x, &start_y, &width, &height, &c_char);
     }
+    // EOF이 아닐 때
+    if (read != -1) 
+	{
+		free(image);
+		return (str_error("Error: Operation file corrupted\n"));
+	}
     // 그리기
     y = 0;
     while (y < b_height)
