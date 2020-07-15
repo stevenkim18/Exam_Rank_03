@@ -56,29 +56,45 @@ int     main(int argc, char *argv[])
 
     // 직사각형 값 파싱해오기
     read = fscanf(file, "%c %f %f %f %f %c\n", &type, &start_x, &start_y, &width, &height, &c_char);
-    printf("%f %f %f %f\n", start_x, start_y, width, height);
-    // 직사각형 그리기
-    y = 0;
-    while (y < b_height)
-    {
-        x = 0;
-        while (x < b_width)
-        {   
-            // 테두리인지 확인하기
-            if ((float)x - start_x < 1.0000000 || (start_x + width) - (float)x < 1.0000000 ||
-                (float)y - start_y < 1.0000000 || (start_y + width) - (float)y < 1.0000000)
-            {
-                // 테두리 였으면 테두리만 그려지고
-                // 테두리인지 확인을 안하면 사각형이 색칠 됨.
-                if ((float)x >= start_x && (float)x <= start_x + width && 
-                    (float)y >= start_y && (float)y <= start_y + height)
-                    image[y * b_height + x] = c_char;
-            }
-            x++;
-        }
-        y++;
-    }
 
+    while (read == 6)
+    {   
+        // 직사각형 그리기
+        y = 0;
+        while (y < b_height)
+        {
+            x = 0;
+            while (x < b_width)
+            {   
+                if (type == 'r')
+                {
+                    // 테두리인지 확인하기
+                    if ((float)x - start_x < 1.0000000 || (start_x + width) - (float)x < 1.0000000 ||
+                        (float)y - start_y < 1.0000000 || (start_y + height) - (float)y < 1.0000000)
+                    {
+                    // 테두리 였으면 테두리만 그려지고
+                    // 테두리인지 확인을 안하면 사각형이 색칠 됨.
+                    // if ((float)x >= start_x && (float)x <= start_x + width && 
+                    //     (float)y >= start_y && (float)y <= start_y + height)
+                    //     image[y * b_height + x] = c_char;
+                    // }
+                    if ((float)x >= start_x && (float)x <= start_x + width && 
+                        (float)y >= start_y && (float)y <= start_y + height)
+                        image[y * b_height + x] = c_char;
+                    }
+                }
+                else if (type == 'R')
+                {
+                    if ((float)x >= start_x && (float)x <= start_x + width && 
+                        (float)y >= start_y && (float)y <= start_y + height)
+                        image[y * b_height + x] = c_char;
+                }
+                x++;
+            }
+            y++;
+        }
+        read = fscanf(file, "%c %f %f %f %f %c\n", &type, &start_x, &start_y, &width, &height, &c_char);
+    }
     // 그리기
     y = 0;
     while (y < b_height)
@@ -87,7 +103,6 @@ int     main(int argc, char *argv[])
         write(1, "\n", 1);
         y++;
     }
-
     free(image);
     fclose(file);
     return (0);
