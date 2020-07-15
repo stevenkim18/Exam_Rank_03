@@ -76,7 +76,7 @@ void
 		x = 0;
 		while (x < zone->width)
 		{
-			is_it = in_circle((float)x, (float)y, shape);
+		is_it = in_circle((float)x, (float)y, shape);
 			if ((shape->type == 'c' && is_it == 2)
 				|| (shape->type == 'C' && is_it))
 				drawing[(y * zone->width) + x] = shape->color;
