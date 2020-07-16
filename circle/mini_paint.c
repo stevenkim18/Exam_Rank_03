@@ -73,7 +73,7 @@ int     main(int argc, char *argv[])
         {
             x = 0;
             while (x < b_width)
-            {   
+            {
                 distance = sqrtf(powf(x - center_x, 2.) + powf(y - center_y, 2.));
                 if (distance <= r)
                 {
