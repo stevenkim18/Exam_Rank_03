@@ -1,4 +1,7 @@
 # Exam_Rank_03
+## 폴더 설명
+- 제출한 코드는 test 폴더에 있습니다.
+- circle과 rectangle 폴더에는 주석과 코드가 같이 있습니다.
 
 ## 구현 순서
 1. 해더 파일 include하고 ft_putstr 함수 만들기
